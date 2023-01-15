@@ -1,0 +1,60 @@
+<ng-container *ngIf="state$ | async as state">
+  <div class="card text-center shadow">
+    <div class="card-body">
+      <h5 class="card-title mb-3">
+        Nombre encuesta: {{ state.surveySelect[0].surveyName }}
+      </h5>
+      <!--ngSwitch-->
+      <div class="mb-3" [ngSwitch]="state.currentQuestion[0].answerType">
+        <!--singleAnswer-->
+        <div *ngSwitchCase="'singleAnswer'">
+          <app-single-answer></app-single-answer>
+        </div>
+        <!--singleAnswer-->
+        <!--multipleAnswer-->
+        <div *ngSwitchCase="'multipleAnswer'">
+          <app-multiple-answer></app-multiple-answer>
+        </div>
+        <!--multipleAnswer-->
+        <!--openAnswer-->
+        <div *ngSwitchCase="'openAnswer'">
+          <app-open-answer></app-open-answer>
+        </div>
+        <!--openAnswer-->
+        <!--numericalAnswer-->
+        <div *ngSwitchCase="'numericalAnswer'">
+          <app-numerical-answer></app-numerical-answer>
+        </div>
+        <!--numericalAnswer-->
+        <!--dateAnswer-->
+        <div *ngSwitchCase="'dateAnswer'">
+          <app-date-answer></app-date-answer>
+        </div>
+        <!--dateAnswer-->
+      </div>
+      <!--ngSwitch-->
+
+      <!--button-->
+      <div class="row-2">
+        <div class="col-12 mb-3" *ngIf="state.showNextQuestion">
+          <button class="w-100 btn btn-primary" (click)="onNextQuestion()">
+            Siguiente pregunta
+          </button>
+        </div>
+        <div class="col-12 mb-3" *ngIf="!state.showNextQuestion">
+          <button class="w-100 btn btn-primary" (click)="onSaveSAurveys()">
+            Guardar
+          </button>
+        </div>
+        <div class="col-12 mb-3">
+          <button class="w-100 btn btn-primary" (click)="onBack()">
+            Atras
+          </button>
+        </div>
+      </div>
+      <!--button-->
+    </div>
+  </div>
+  <p>{{ state.currentQuestion | json }}</p>
+</ng-container>
+<p>ddddddd</p>

@@ -1,0 +1,22 @@
+<ng-container *ngIf="state$ | async as state">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        Pregunta: {{ state.currentQuestion[0].questionDetail }}
+      </h5>
+      <div class="form-check" *ngFor="let answer of state.currentQuestion">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [value]="answer.answersId"
+          id="flexCheckCheckedDisabled"
+          [checked]="answer.isChekked"
+          (change)="onChaceCheckbox($event)"
+        />
+        <label class="form-check-label" for="flexCheckCheckedDisabled">
+          {{ answer.correctAnswer }}
+        </label>
+      </div>
+    </div>
+  </div>
+</ng-container>

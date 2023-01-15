@@ -1,0 +1,28 @@
+<ng-container *ngIf="state$ | async as state">
+  <div
+    class="row text-center align-items-center mb-2"
+    *ngIf="!state.showDashboard"
+  >
+    <div
+      [ngClass]="{
+        cardCenter: state.surveyList.length > 0 && state.surveyList.length < 2,
+        'col-sm-12 col-sd-6 col-lg-4 col-xl-4': state.surveyList.length > 1
+      }"
+      *ngFor="let survey of state.surveyList"
+    >
+      <div class="card shadow">
+        <div class="card-header">{{ survey.surveyName }}</div>
+        <div class="card-body">
+          <h5 class="card-title">ActiveSurvey: {{ survey.activeSurvey }}</h5>
+          <p class="card-text">CreateAt: {{ survey.createAt | date }}</p>
+          <button (click)="surveyById(survey.surveyId)" class="btn btn-primary">
+            Answer survey
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="state.showDashboard">
+    <app-details></app-details>
+  </div>
+</ng-container>

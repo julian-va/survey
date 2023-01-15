@@ -1,0 +1,17 @@
+<ng-container *ngIf="state$ | async as state">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        Pregunta: {{ state.currentQuestion[0].questionDetail }}
+      </h5>
+      <div class="mb-3">
+        <input
+          type="number"
+          class="form-control"
+          id="exampleFormControlInput1"
+          placeholder="0"
+        />
+      </div>
+    </div>
+  </div>
+</ng-container>
