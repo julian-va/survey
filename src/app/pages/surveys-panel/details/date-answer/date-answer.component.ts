@@ -8,11 +8,8 @@ import { SurveysUseCaseService } from '../../surveys-usecase.service';
 })
 export class DateAnswerComponent {
   state$ = this.surveysUseCaseService.state$;
-  dateSelect: Date;
 
-  constructor(private readonly surveysUseCaseService: SurveysUseCaseService) {
-    this.dateSelect = new Date('2023/01/30');
-  }
+  constructor(private readonly surveysUseCaseService: SurveysUseCaseService) {}
 
   onSaveDate($event: Event) {
     const element = $event.target as HTMLInputElement;

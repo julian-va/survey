@@ -10,6 +10,8 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="0"
+          [value]="state.currentQuestion[0].correctAnswer"
+          (change)="onChaceAnswNumber($event)"
         />
       </div>
     </div>

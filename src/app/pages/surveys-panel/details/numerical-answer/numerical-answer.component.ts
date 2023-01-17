@@ -10,4 +10,10 @@ export class NumericalAnswerComponent {
   state$ = this.surveysUseCaseService.state$;
 
   constructor(private readonly surveysUseCaseService: SurveysUseCaseService) {}
+
+  onChaceAnswNumber($event: Event): void {
+    const element = $event.target as HTMLInputElement;
+    const answersId: string = element.value;
+    this.surveysUseCaseService.saveDate(answersId);
+  }
 }

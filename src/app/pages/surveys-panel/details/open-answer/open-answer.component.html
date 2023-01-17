@@ -10,7 +10,10 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="..."
+          [value]="state.currentQuestion[0].correctAnswer"
+          (change)="onChaceAnswOpen($event)"
         />
+        <!---[(ngModel)]="sss"--->
       </div>
     </div>
   </div>

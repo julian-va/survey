@@ -10,4 +10,10 @@ export class OpenAnswerComponent {
   state$ = this.surveysUseCaseService.state$;
 
   constructor(private readonly surveysUseCaseService: SurveysUseCaseService) {}
+
+  onChaceAnswOpen($event: Event): void {
+    const element = $event.target as HTMLInputElement;
+    const answOpen: string = element.value;
+    this.surveysUseCaseService.saveDate(answOpen);
+  }
 }
