@@ -16,6 +16,7 @@ export class DetailsComponent {
   }
 
   onSaveSAurveys(): void {
+    this.surveysUseCaseService.saveSurvey();
     console.log('me guardannnnnnn');
   }
 

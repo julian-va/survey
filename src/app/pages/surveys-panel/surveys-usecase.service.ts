@@ -6,6 +6,7 @@ import { ErrorDto } from 'src/app/dto/error-dto';
 import { ResponseSurveysDto } from 'src/app/dto/response-surveys-dto';
 import { SurveysDto } from 'src/app/dto/surveys-dto';
 import { SurveysStateDto } from 'src/app/dto/surveys-state-dto';
+import { UserResposeDto } from 'src/app/dto/user-respose-dto';
 import { SurveysService } from 'src/app/service/surveys.service';
 
 @Injectable({
@@ -35,6 +36,15 @@ export class SurveysUseCaseService {
         this.prepareQuestion(true);
       })
     );
+  }
+
+  saveSurvey() {
+    const temp = this.state.getValue();
+    this.survaysService
+      .postSaveSurvey(this.userResposeDto(temp.surveyToSave))
+      .subscribe((res) => {
+        this.resetState(temp);
+      });
   }
 
   private prepareQuestion(initialQuestion: boolean): void {
@@ -100,6 +110,8 @@ export class SurveysUseCaseService {
         }
         this.prepareQuestion(false);
       } else {
+        temp.showNextQuestion = false;
+        this.state.next(temp);
         console.log('SE ACABARON LAS PREGUNTAS');
       }
     } catch (error) {
@@ -240,5 +252,29 @@ export class SurveysUseCaseService {
     const temp = this.state.getValue();
     temp.currentQuestion.forEach((it) => (it.correctAnswer = answer));
     this.state.next(temp);
+  }
+
+  private userResposeDto(surveyToSave: ResponseSurveysDto[]): UserResposeDto[] {
+    const res = surveyToSave.map((it) => {
+      const temp: UserResposeDto = {
+        answerDescription: it.correctAnswer,
+        answersId: it.answersId,
+        surveyId: it.surveyId,
+        userId: 1,
+      };
+      return temp;
+    });
+    return res;
+  }
+  private resetState(state: SurveysStateDto): void {
+    state.currentQuestion = [];
+    state.errorQuestion = [];
+    state.previousQuestion = [];
+    state.previousQuestionHistory = [];
+    state.showDashboard = false;
+    state.showNextQuestion = false;
+    state.surveySelect = [];
+    state.surveyToSave = [];
+    this.state.next(state);
   }
 }
