@@ -18,6 +18,7 @@ export class SurveysUseCaseService {
 
   constructor(private readonly survaysService: SurveysService) {}
 
+  ///////// methods that interact with the backend //////////
   allSurveys(): Observable<SurveysDto[]> {
     return this.survaysService.getAllSurveys().pipe(
       tap((res) => {
@@ -46,7 +47,7 @@ export class SurveysUseCaseService {
         this.resetState(temp);
       });
   }
-
+  ///////// methods that interact with the backend //////////
   private prepareQuestion(initialQuestion: boolean): void {
     const temp = this.state.getValue();
 
@@ -63,6 +64,9 @@ export class SurveysUseCaseService {
       temp.currentQuestion = this.prepareCurrentQuestion(temp2);
       temp.showDashboard = true;
       temp.showNextQuestion = true;
+      this.state.next(temp);
+    } else {
+      temp.showNextQuestion = false;
       this.state.next(temp);
     }
   }
@@ -88,7 +92,7 @@ export class SurveysUseCaseService {
   nextQuestion(): void {
     const temp = this.state.getValue();
     try {
-      if (temp.currentQuestion[0].nextQuestionId) {
+      if (temp.showNextQuestion) {
         switch (temp.currentQuestion[0].answerType) {
           case SurveyAnswerType.DATE_ANSWER:
             this.prepareSaveQuestionCorrectAnswer(temp);
@@ -109,10 +113,6 @@ export class SurveysUseCaseService {
             break;
         }
         this.prepareQuestion(false);
-      } else {
-        temp.showNextQuestion = false;
-        this.state.next(temp);
-        console.log('SE ACABARON LAS PREGUNTAS');
       }
     } catch (error) {
       console.log(temp.errorQuestion[0]);
@@ -211,6 +211,7 @@ export class SurveysUseCaseService {
       if (previousQuestion.length > 0) {
         temp.currentQuestion = temp.previousQuestion;
         temp.previousQuestion = previousQuestion;
+        temp.showNextQuestion = true;
 
         previousQuestion.forEach((it) => {
           const index = temp.previousQuestionHistory.findIndex(
@@ -247,10 +248,15 @@ export class SurveysUseCaseService {
     this.state.next(temp);
   }
 
-  saveDate(answer: string): void {
-    console.log('respuestas abierta', answer);
+  saveDate(answer: string, dateStr: string = ''): void {
     const temp = this.state.getValue();
-    temp.currentQuestion.forEach((it) => (it.correctAnswer = answer));
+    temp.currentQuestion.forEach(
+      (it) => (
+        (it.correctAnswer = answer),
+        (it.dataStr = dateStr.length > 0 ? dateStr : it.dataStr)
+      )
+    );
+
     this.state.next(temp);
   }
 

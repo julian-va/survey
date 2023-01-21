@@ -15,9 +15,7 @@ export class DateAnswerComponent {
     const element = $event.target as HTMLInputElement;
     var re = /-/gi;
     const temp = element.value.replace(re, '/');
-    const dateSelect = new Date(temp);
-    console.log(temp);
-    console.log(dateSelect);
-    console.log(dateSelect.toLocaleString());
+    const dateSelect = new Date(temp).toLocaleString();
+    this.surveysUseCaseService.saveDate(dateSelect, element.value);
   }
 }
